@@ -62,12 +62,12 @@ func init() {
 	search.Register("rss", matcher)
 }
 
-func (m rssMatcher) Search(feed *search.Feed, searchTerm string) ([]*search.Result, error) {
+func (matcher rssMatcher) Search(feed *search.Feed, searchTerm string) ([]*search.Result, error) {
 	var results []*search.Result
 
 	log.Printf("Search Feed Type[%s] Site[%s] For URI[%s]\n", feed.Type, feed.Name, feed.URI)
 
-	document, err := m.retrieve(feed)
+	document, err := matcher.retrieve(feed)
 	if err != nil {
 		return nil, err
 	}
@@ -102,7 +102,7 @@ func (m rssMatcher) Search(feed *search.Feed, searchTerm string) ([]*search.Resu
 	return results, nil
 }
 
-func (m rssMatcher) retrieve(feed *search.Feed) (*rssDocument, error) {
+func (matcher rssMatcher) retrieve(feed *search.Feed) (*rssDocument, error) {
 	if feed.URI == "" {
 		return nil, errors.New("No rss feed uri provided")
 	}
