@@ -90,6 +90,8 @@ func Run(searchTerm string) {
 	Display(results)
 }
 
+// 사용할 검색기를 등록할 함수를 정의
+// init()은 초기 등록 작업을 처리하기 위한 최적의 방법 제공
 func Register(feedType string, matcher Matcher) {
 	if _, exists := matchers[feedType]; exists {
 		log.Fatalln(feedType, "Matcher already registered")

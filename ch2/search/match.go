@@ -24,6 +24,7 @@ type Matcher interface {
 
 // 고루틴으로써 호출됨
 // 개별 피드 타입에 대한 검색을 동시에 수행
+// Matcher 인터페이스를 구현하는 값 포인터에 의해 실제 검색을 수행하는 메소드
 func Match(matcher Matcher, feed *Feed, searchTerm string, results chan <- *Result) {
 
 	// 지정된 검색기를 이용해 검색을 수행
@@ -39,7 +40,11 @@ func Match(matcher Matcher, feed *Feed, searchTerm string, results chan <- *Resu
 	}
 }
 
+// 개별 고루틴이 전달한 검색 결과를 출력
 func Display(results chan *Result) {
+
+	// channel은 검색 결과가 기록될 때까지 접근이 차단
+	// channel이 닫히면 for 루프가 종료
 	for result := range results {
 		log.Printf("%s:\n%s\n\n", result.Field, result.Content)
 	}
